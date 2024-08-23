@@ -1,0 +1,89 @@
+#include <SPI.h>
+#include <MFRC522.h>
+
+#define RST_PIN 27 // RST connected to GPIO 27
+#define SS_PIN 22  // SDA(SS) connected to GPIO 22
+#define relay1 5   // Define Pin of the Relay
+
+// Define the allowed UIDs
+byte allowedUIDs[][4] = {
+  // Replace the placeholders with actual card UIDs.
+  {0xXX, 0xXX, 0xXX, 0xXX}, // Card 1: Replace with actual UID
+  {0xXX, 0xXX, 0xXX, 0xXX}, // Card 2: Replace with actual UID
+  {0xXX, 0xXX, 0xXX, 0xXX}, // Card 3: Replace with actual UID
+  {0xXX, 0xXX, 0xXX, 0xXX}, // Card 4: Replace with actual UID
+  {0xXX, 0xXX, 0xXX, 0xXX}, // Card 5: Replace with actual UID
+  {0xXX, 0xXX, 0xXX, 0xXX}, // Card 6: Replace with actual UID
+  {0xXX, 0xXX, 0xXX, 0xXX}, // Card 7: Replace with actual UID
+  {0xXX, 0xXX, 0xXX, 0xXX}, // Card 8: Replace with actual UID
+  {0xXX, 0xXX, 0xXX, 0xXX}  // Card 9: Replace with actual UID
+};
+
+// Instructions:
+// 1. Replace each `0xXX` with the corresponding byte from your card's UID.
+//    For example, if your card UID is "AB CD 12 34", you would write:
+//    {0xAB, 0xCD, 0x12, 0x34} for that card.
+
+
+MFRC522 mfrc522(SS_PIN, RST_PIN); // Create MFRC522 instance
+
+void setup() {
+  Serial.begin(9600);
+  while (!Serial);
+  SPI.begin(19, 25, 23);
+  mfrc522.PCD_Init();
+  delay(4);
+  mfrc522.PCD_DumpVersionToSerial();
+  Serial.println(F("Scan PICC to see UID, SAK, type, and data blocks..."));
+
+  pinMode(relay1, OUTPUT);
+
+  // Ensure the relay is in the correct initial state (closed)
+  digitalWrite(relay1, HIGH); // Set the relay to the closed state (no current flowing to open the door)
+
+  // Give some time to stabilize after setting the relay state
+  delay(1000);
+}
+
+
+void loop() {
+  if (!mfrc522.PICC_IsNewCardPresent()) {
+    return;
+  }
+
+  if (!mfrc522.PICC_ReadCardSerial()) {
+    return;
+  }
+
+  // Compare the scanned UID with the allowed UIDs
+  if (isUIDAllowed(mfrc522.uid.uidByte)) {
+    // UID matches, open the relay for 2 seconds
+    digitalWrite(relay1, LOW);
+    delay(500);
+    digitalWrite(relay1, HIGH);
+  }
+  // Otherwise, do nothing (relay remains closed)
+
+  mfrc522.PICC_HaltA();
+  mfrc522.PCD_StopCrypto1();
+}
+
+// Function to compare the scanned UID with the list of allowed UIDs
+bool isUIDAllowed(byte* uid) {
+  for (int i = 0; i < sizeof(allowedUIDs) / sizeof(allowedUIDs[0]); i++) {
+    if (compareUID(uid, allowedUIDs[i])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Function to compare two UIDs
+bool compareUID(byte* uid1, byte* uid2) {
+  for (int i = 0; i < 4; i++) {
+    if (uid1[i] != uid2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
