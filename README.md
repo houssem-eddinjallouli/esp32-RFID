@@ -1,7 +1,7 @@
 <h3 align="center">ESP32 Door Unlock System</h3>
 
 <p align="center">
-  <img src="images/the_update/final_result.jpg" alt="Final Result" width="500"/>
+  <img src="images/the_update/final_result.jpg" alt="Final Result" width="700"/>
 </p>
 
 <!-- TABLE OF CONTENTS -->
