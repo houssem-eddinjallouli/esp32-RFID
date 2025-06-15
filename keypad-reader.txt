@@ -1,0 +1,28 @@
+#include <Keypad.h>
+
+const byte ROWS = 4;
+const byte COLS = 3;
+
+char keys[ROWS][COLS] = {
+  {'1','2','3'},
+  {'4','5','6'},
+  {'7','8','9'},
+  {'*','0','#'}
+};
+
+byte rowPins[ROWS] = {33, 32, 4, 26}; // R1–R4
+byte colPins[COLS] = {13, 12, 14}; // C1–C3
+
+Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+
+void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+  char key = keypad.getKey();
+  if (key) {
+    Serial.print("Pressed: ");
+    Serial.println(key);
+  }
+}
