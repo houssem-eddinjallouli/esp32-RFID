@@ -1,6 +1,8 @@
 <h3 align="center">ESP32 Door Unlock System</h3>
 
-![Final Result](images/the_update/final_result.jpg)
+<p align="center">
+  <img src="images/the_update/final_result.jpg" alt="Final Result" width="350"/>
+</p>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -169,7 +171,3 @@ This made the system much more reliable over time.
 ---
 
 Now, the door can be opened via RFID, keypad, or even a phone browser over local Wi-Fi.
-
-```
-
-```
