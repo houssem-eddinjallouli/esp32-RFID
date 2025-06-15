@@ -110,8 +110,6 @@ constexpr char ssid[] = "your-wifi-name";
 constexpr char password[] = "your-wifi-password";
 ```
 
-````
-
 ### Web Access
 
 Once uploaded:
@@ -171,4 +169,7 @@ This made the system much more reliable over time.
 ---
 
 Now, the door can be opened via RFID, keypad, or even a phone browser over local Wi-Fi.
-````
+
+```
+
+```
