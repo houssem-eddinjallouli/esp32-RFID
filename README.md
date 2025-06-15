@@ -1,4 +1,3 @@
-````markdown
 <h3 align="center">ESP32 Door Unlock System</h3>
 
 ![Final Result](images/the_update/final_result.jpg)
@@ -110,6 +109,7 @@ Replace with your own network credentials:
 constexpr char ssid[] = "your-wifi-name";
 constexpr char password[] = "your-wifi-password";
 ```
+
 ````
 
 ### Web Access
@@ -171,3 +171,4 @@ This made the system much more reliable over time.
 ---
 
 Now, the door can be opened via RFID, keypad, or even a phone browser over local Wi-Fi.
+````
